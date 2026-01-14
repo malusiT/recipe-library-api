@@ -1,7 +1,9 @@
 package com.malusi.RecipeLibrary;
 
-import org.springframework.hateoas.EntityModel;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,16 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.EntityModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.IanaLinkRelations;
 
 @RestController
 
 class RecipeController {
   private final RecipeRepository repository;
 
-  RecipeController(RecipeRepository repository) {
+  private final RecipeModelAssembler assembler;
+
+  RecipeController(RecipeRepository repository, RecipeModelAssembler assembler) {
     this.repository = repository;
+    this.assembler = assembler;
   }
 
   // Aggregate repository
@@ -29,18 +34,18 @@ class RecipeController {
   @GetMapping("/recipes")
   CollectionModel<EntityModel<Recipe>> all() {
 
-    List<EntityModel<Recipe>> recipes  = repository.findAll().stream()
-      .map(recipe -> EntityModel.of(recipe, 
-            linkTo(methodOn(RecipeController.class).one(recipe.getId())).withSelfRel(),
-            linkTo(methodOn(RecipeController.class).all()).withRel("recipes")))
-            .collect(Collectors.toList());
+    List<EntityModel<Recipe>> recipes = repository.findAll().stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
     return CollectionModel.of(recipes, linkTo(methodOn(RecipeController.class).all()).withSelfRel());
   }
   // end::get-aggregate-root[]
 
   @PostMapping("/recipes")
-  Recipe newRecipe(@RequestBody Recipe newRecipe) {
-    return repository.save(newRecipe);
+  ResponseEntity<?> newRecipe(@RequestBody Recipe newRecipe) {
+    EntityModel<Recipe> entityModel = assembler.toModel(repository.save(newRecipe));
+    
+    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
   }
 
   // Single item
@@ -50,8 +55,7 @@ class RecipeController {
     Recipe recipe = repository.findById(id)
         .orElseThrow(() -> new RecipeNotFoundException(id));
 
-    return EntityModel.of(recipe, linkTo(methodOn(RecipeController.class).one(id)).withSelfRel(),
-        linkTo(methodOn(RecipeController.class).all()).withRel("recipes"));
+    return assembler.toModel(recipe);
   }
 
   @PutMapping("recipes/{id}")

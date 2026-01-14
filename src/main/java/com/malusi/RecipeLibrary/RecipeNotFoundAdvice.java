@@ -10,7 +10,7 @@ class RecipeNotFoundAdvice {
 
   @ExceptionHandler(RecipeNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  String employeeNotFoundHandler(RecipeNotFoundException ex) {
+  String recipeNotFoundHandler(RecipeNotFoundException ex) {
     return ex.getMessage();
   }
 }

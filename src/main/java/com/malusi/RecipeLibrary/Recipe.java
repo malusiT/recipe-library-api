@@ -62,7 +62,6 @@ class Recipe {
     this.instructions = instructions;
   }
 
-
   @Override
   public boolean equals(Object o){
     
