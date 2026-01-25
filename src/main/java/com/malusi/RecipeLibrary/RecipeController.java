@@ -1,9 +1,10 @@
 package com.malusi.RecipeLibrary;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.hateoas.EntityModel;
+import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.hateoas.IanaLinkRelations;
 
 @RestController
 
@@ -44,7 +43,7 @@ class RecipeController {
   @PostMapping("/recipes")
   ResponseEntity<?> newRecipe(@RequestBody Recipe newRecipe) {
     EntityModel<Recipe> entityModel = assembler.toModel(repository.save(newRecipe));
-    
+
     return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
   }
 
@@ -59,19 +58,26 @@ class RecipeController {
   }
 
   @PutMapping("recipes/{id}")
-  Recipe replaceRecipe(@RequestBody Recipe newRecipe, @PathVariable Long id) {
+  ResponseEntity<?> replaceRecipe(@RequestBody Recipe newRecipe, @PathVariable Long id) {
 
-    return repository.findById(id)
+    Recipe updatedRecipe = repository.findById(id)
         .map(recipe -> {
           recipe.setName(newRecipe.getName());
           recipe.setDescription(newRecipe.getDescription());
           recipe.setRecipeList(newRecipe.getRecipeList());
           recipe.setInstructions(newRecipe.getInstructions());
-          return repository.save(newRecipe);
+          return repository.save(recipe);
         })
         .orElseGet(() -> {
           return repository.save(newRecipe);
         });
+
+    EntityModel<Recipe> entityModel = assembler.toModel(updatedRecipe);
+
+    return ResponseEntity
+        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+        .body(entityModel);
+
   }
 
   @DeleteMapping("recipes/{id}")
