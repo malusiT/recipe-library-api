@@ -16,7 +16,7 @@ class Recipe {
   private String description;
 
   @ElementCollection
-  private List<String> recipeList;
+  private List<String> ingredients;
 
   @ElementCollection
   private List<String> instructions;
@@ -24,10 +24,10 @@ class Recipe {
   Recipe() {
   }
 
-  Recipe(String name, String description, List<String> recipeList, List<String> instructions) {
+  Recipe(String name, String description, List<String> ingredients, List<String> instructions) {
     this.name = name;
     this.description = description;
-    this.recipeList = recipeList;
+    this.ingredients = ingredients;
     this.instructions = instructions;
 
    }
@@ -45,7 +45,7 @@ class Recipe {
   }
 
   public List<String> getRecipeList() {
-    return this.recipeList;
+    return this.ingredients;
   }
 
   public List<String> getInstructions() {
@@ -60,8 +60,8 @@ class Recipe {
     this.description = description;
   }
 
-  public void setRecipeList(List<String> recipeList){
-    this.recipeList = recipeList;
+  public void setRecipeList(List<String> ingredients){
+    this.ingredients = ingredients;
   }
   
   public void setInstructions(List<String> instructions){
@@ -78,18 +78,18 @@ class Recipe {
     if(!(o instanceof Recipe))
       return false;
     Recipe recipe = (Recipe) o;
-    return Objects.equals(this.id, recipe.id) && Objects.equals(this.name, recipe.name) && Objects.equals(this.recipeList, recipe.recipeList) && Objects.equals(this.instructions, recipe.instructions);
+    return Objects.equals(this.id, recipe.id) && Objects.equals(this.name, recipe.name) && Objects.equals(this.ingredients, recipe.ingredients) && Objects.equals(this.instructions, recipe.instructions);
   }
 
   @Override
   public String toString() {
     // TODO Auto-generated method stub
-    return "Recipe{id=" + id + ", name=" + name + ", description=" + description + ", recipeList=" + recipeList.toString() + ", instructions=" + instructions.toString() + "}";
+    return "Recipe{id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients.toString() + ", instructions=" + instructions.toString() + "}";
   }
 
   @Override
   public int hashCode(){
-    return Objects.hash(this.id, this.name, this.description, this.recipeList, this.instructions);
+    return Objects.hash(this.id, this.name, this.description, this.ingredients, this.instructions);
   }
 
 }

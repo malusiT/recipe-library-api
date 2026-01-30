@@ -47,6 +47,6 @@ class LoadDatabase{
     };
   }
 
-  // {"name": Juice", "description": "flavoured juice", "recipeList": {"water", "concentrated juice"}, "instructions": {"pour water in a cup to quarter full", "pour one tablespoon of concentrated juice", "stir for a minute"}
+  // {"name": Juice", "description": "flavoured juice", "ingredients": {"water", "concentrated juice"}, "instructions": {"pour water in a cup to quarter full", "pour one tablespoon of concentrated juice", "stir for a minute"}
 
 }
