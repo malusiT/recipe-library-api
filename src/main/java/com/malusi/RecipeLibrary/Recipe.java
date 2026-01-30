@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ElementCollection;
 
@@ -12,13 +15,21 @@ import jakarta.persistence.ElementCollection;
 class Recipe {
 
   private @Id @GeneratedValue Long id;
+
+  @NotBlank(message = "Name is mandatory")
+  @NotEmpty(message =  "Name may not be empty")
   private String name;
+
+  @NotBlank(message = "Description is mandatory")
+  @NotEmpty(message = "Description may not be empty")
   private String description;
 
   @ElementCollection
+  @NotNull(message = "Ingredients may not be null")
   private List<String> ingredients;
 
   @ElementCollection
+  @NotNull(message = "Instructions may not be null")
   private List<String> instructions;
 
   Recipe() {

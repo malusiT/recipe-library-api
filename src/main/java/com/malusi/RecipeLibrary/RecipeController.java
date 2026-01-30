@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import java.util.Map;
 
 @RestController
 
@@ -25,6 +27,15 @@ class RecipeController {
   RecipeController(RecipeRepository repository, RecipeModelAssembler assembler) {
     this.repository = repository;
     this.assembler = assembler;
+  }
+
+  @GetMapping("/")
+  public Map<String, String> info(){
+    return Map.of(
+          "name", "Recipe Library API",
+          "version", "1.0",
+          "docs", "swagger-ui/index.html"
+        );
   }
 
   // Aggregate repository
