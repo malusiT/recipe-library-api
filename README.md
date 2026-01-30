@@ -7,6 +7,11 @@ The project is based on the official Spring Building REST services tutorial, but
 
 The application uses an embedded database via JPA for persistence (configured automatically by Spring Boot)
 
+## API Base URL
+```
+https://recipe-library-api-production.up.railway.app
+```
+
 ## Features
 - RESTful CRUD API for managing recipes
 - Uses Spring Boot for rapid application setup
@@ -35,10 +40,6 @@ A recipe consists of:
 - recipeList – List of ingredients
 - instructions – Step-by-step cooking instructions
 
-## API Base URL
-```
-https://recipe-library-api-production.up.railway.app
-```
 ## API Endpoints
 #### Get all recipes
 
