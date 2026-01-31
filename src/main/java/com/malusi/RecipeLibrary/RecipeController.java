@@ -75,7 +75,7 @@ class RecipeController {
         .map(recipe -> {
           recipe.setName(newRecipe.getName());
           recipe.setDescription(newRecipe.getDescription());
-          recipe.setRecipeList(newRecipe.getRecipeList());
+          recipe.setRecipeList(newRecipe.getIngredients());
           recipe.setInstructions(newRecipe.getInstructions());
           return repository.save(recipe);
         })

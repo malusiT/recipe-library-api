@@ -55,7 +55,7 @@ class Recipe {
     return this.description;
   }
 
-  public List<String> getRecipeList() {
+  public List<String> getIngredients() {
     return this.ingredients;
   }
 
