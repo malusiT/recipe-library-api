@@ -12,6 +12,12 @@ The application uses an embedded database via JPA for persistence (configured au
 https://recipe-library-api-production.up.railway.app
 ```
 
+## API Docs
+This application uses OpenAPI/Swagger to produce documentation.
+```
+https://recipe-library-api-production.up.railway.app/swagger-ui/index.html
+```
+
 ## Features
 - RESTful CRUD API for managing recipes
 - Uses Spring Boot for rapid application setup
