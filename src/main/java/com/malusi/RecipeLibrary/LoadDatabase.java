@@ -37,7 +37,8 @@ class LoadDatabase{
               "Classic Margherita Pizza",
               "A timeless Italian favorite featuring a thin, crispy crust topped with vibrant tomato sauce, fresh mozzarella, and aromatic basil.",
               ingredients,
-              instructions
+              instructions,
+              30
               ));
         log.info("Database initialised with sample recipes.");
       // log.info("Preloading " + repository.save(new Employee("Frodo Baggins", "thief")));

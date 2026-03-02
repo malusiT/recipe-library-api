@@ -9,7 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.ElementCollection;
 
-
+//For database column definition
+import jakarta.persistence.Column;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -20,7 +21,7 @@ import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
+@Table(name = "recipes")
 @Entity
 class Recipe {
 
@@ -34,11 +35,11 @@ class Recipe {
   @NotEmpty(message = "Description may not be empty")
   private String description;
 
-  @ElementCollection
+  @Column(name = "ingredients", columnDefinition = "text[]")
   @NotNull(message = "Ingredients may not be null")
   private List<String> ingredients;
 
-  @ElementCollection
+  @Column(name = "instructions", columnDefinition = "text[]")
   @NotNull(message = "Instructions may not be null")
   private List<String> instructions;
 
@@ -47,10 +48,12 @@ class Recipe {
 
   // Set when entity is created (stored as UTC instant in the database)
   @CreationTimestamp
+  @Column(name = "created_at", updatable = false) // Use the exact name in your DB
   // @Column(name="createdAt", nullable = false, updatable = false)
   private Instant createdAt;
 
   @UpdateTimestamp
+  @Column(name = "updated_at") // Use the exact name in your DB
   // @Column(name = "updatedAt", nullable = false)
   private Instant updatedAt;
 
@@ -58,7 +61,8 @@ class Recipe {
   Recipe() {
   }
 
-  Recipe(String name, String description, List<String> ingredients, List<String> instructions) {
+  Recipe(String name, String description, List<String> ingredients, List<String> instructions, int duration) {
+    
     this.name = name;
     this.description = description;
     this.ingredients = ingredients;
@@ -68,6 +72,8 @@ class Recipe {
     Instant now = Instant.now();
     this.createdAt = now;
     this.updatedAt = now;
+
+    this.duration = duration;
    }
 
   public Long getId() {
