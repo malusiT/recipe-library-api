@@ -9,13 +9,13 @@ The application uses an embedded database via JPA for persistence (configured au
 
 ## API Base URL
 ```
-https://recipe-library-api-production.up.railway.app
+http://localhost:8080/recipes
 ```
 
 ## API Docs
 This application uses OpenAPI/Swagger to produce documentation.
 ```
-https://recipe-library-api-production.up.railway.app/swagger-ui/index.html
+http://localhost:8080/recipes/swagger-ui/index.html
 ```
 
 ## Features
