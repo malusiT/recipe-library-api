@@ -5,11 +5,21 @@ import java.util.Arrays;
 import java.util.Objects;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.ElementCollection;
+
+
+// Validation imports
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ElementCollection;
+
+// Timestamp imports
+import java.time.Instant;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Entity
 class Recipe {
@@ -32,6 +42,19 @@ class Recipe {
   @NotNull(message = "Instructions may not be null")
   private List<String> instructions;
 
+  @NotNull(message = "Duration may not be null")
+  private int duration;
+
+  // Set when entity is created (stored as UTC instant in the database)
+  @CreationTimestamp
+  // @Column(name="createdAt", nullable = false, updatable = false)
+  private Instant createdAt;
+
+  @UpdateTimestamp
+  // @Column(name = "updatedAt", nullable = false)
+  private Instant updatedAt;
+
+
   Recipe() {
   }
 
@@ -41,6 +64,10 @@ class Recipe {
     this.ingredients = ingredients;
     this.instructions = instructions;
 
+    // For date creation
+    Instant now = Instant.now();
+    this.createdAt = now;
+    this.updatedAt = now;
    }
 
   public Long getId() {
@@ -79,6 +106,18 @@ class Recipe {
     this.instructions = instructions;
   }
 
+  public Instant getCreatedAt(){
+    return createdAt;
+  }
+
+  public Instant getUpdatedAt(){
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Instant now){
+    this.updatedAt = now;
+  }
+
   @Override
   public boolean equals(Object o){
     
@@ -95,7 +134,7 @@ class Recipe {
   @Override
   public String toString() {
     // TODO Auto-generated method stub
-    return "Recipe{id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients.toString() + ", instructions=" + instructions.toString() + "}";
+    return "Recipe{id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients.toString() + ", instructions=" + instructions.toString() + ", createdAt="+ createdAt + " , updatedAt="+ updatedAt + "}";
   }
 
   @Override
