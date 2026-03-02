@@ -1,4 +1,4 @@
-# Recipe Library API
+# recipe-api
 
 A RESTful Recipe Library API built with Spring Boot, Spring Data JPA, and Spring HATEOAS.
 This project allows clients to create, retrieve, update, and delete recipes using standard HTTP methods.
