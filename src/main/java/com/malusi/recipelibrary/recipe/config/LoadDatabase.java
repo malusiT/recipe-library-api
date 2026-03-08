@@ -1,4 +1,8 @@
-package com.malusi.RecipeLibrary;
+package com.malusi.recipelibrary.recipe.config;
+
+import com.malusi.recipelibrary.recipe.repository.RecipeRepository;
+import com.malusi.recipelibrary.recipe.entity.Recipe;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-class LoadDatabase{
+public class LoadDatabase{
 
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 

@@ -1,4 +1,7 @@
-package com.malusi.RecipeLibrary;
+package com.malusi.recipelibrary.recipe.assembler;
+
+import com.malusi.recipelibrary.recipe.controller.RecipeController;
+import com.malusi.recipelibrary.recipe.entity.Recipe;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.hateoas.EntityModel;
@@ -6,7 +9,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-class RecipeModelAssembler implements RepresentationModelAssembler<Recipe, EntityModel<Recipe>>{
+public class RecipeModelAssembler implements RepresentationModelAssembler<Recipe, EntityModel<Recipe>>{
 
   @Override
   public EntityModel<Recipe> toModel(Recipe recipe){

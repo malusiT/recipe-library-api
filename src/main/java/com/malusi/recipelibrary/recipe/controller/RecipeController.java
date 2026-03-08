@@ -1,10 +1,19 @@
-package com.malusi.RecipeLibrary;
+package com.malusi.recipelibrary.recipe.controller;
+
+// Importing the reqiured files from their respective packages
+import com.malusi.recipelibrary.recipe.repository.RecipeRepository;
+import com.malusi.recipelibrary.recipe.assembler.RecipeModelAssembler;
+import com.malusi.recipelibrary.recipe.exception.RecipeNotFoundException;
+import com.malusi.recipelibrary.recipe.entity.Recipe;
+
 
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
+
+//Importing Controller Mappings
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +27,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.Map;
 
 @RestController
-
-class RecipeController {
+@RequestMapping("/api")
+public class RecipeController {
   private final RecipeRepository repository;
 
   private final RecipeModelAssembler assembler;
 
-  RecipeController(RecipeRepository repository, RecipeModelAssembler assembler) {
+  public RecipeController(RecipeRepository repository, RecipeModelAssembler assembler) {
     this.repository = repository;
     this.assembler = assembler;
   }
@@ -34,7 +43,7 @@ class RecipeController {
     return Map.of(
           "name", "Recipe Library API",
           "version", "1.0",
-          "docs", "swagger-ui/index.html"
+          "docs", "/swagger-ui/index.html"
         );
   }
 
@@ -42,7 +51,7 @@ class RecipeController {
   // tag::get-aggregate-root[]
 
   @GetMapping("/recipes")
-  CollectionModel<EntityModel<Recipe>> all() {
+  public CollectionModel<EntityModel<Recipe>> all() {
 
     List<EntityModel<Recipe>> recipes = repository.findAll().stream()
         .map(assembler::toModel)
@@ -52,7 +61,7 @@ class RecipeController {
   // end::get-aggregate-root[]
 
   @PostMapping("/recipes")
-  ResponseEntity<?> newRecipe(@RequestBody Recipe newRecipe) {
+  public ResponseEntity<?> newRecipe(@RequestBody Recipe newRecipe) {
     EntityModel<Recipe> entityModel = assembler.toModel(repository.save(newRecipe));
 
     return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
@@ -61,7 +70,7 @@ class RecipeController {
   // Single item
 
   @GetMapping("/recipes/{id}")
-  EntityModel<Recipe> one(@PathVariable Long id) {
+  public EntityModel<Recipe> one(@PathVariable Long id) {
     Recipe recipe = repository.findById(id)
         .orElseThrow(() -> new RecipeNotFoundException(id));
 
@@ -69,7 +78,7 @@ class RecipeController {
   }
 
   @PutMapping("recipes/{id}")
-  ResponseEntity<?> replaceRecipe(@RequestBody Recipe newRecipe, @PathVariable Long id) {
+  public ResponseEntity<?> replaceRecipe(@RequestBody Recipe newRecipe, @PathVariable Long id) {
 
     Recipe updatedRecipe = repository.findById(id)
         .map(recipe -> {
@@ -92,7 +101,7 @@ class RecipeController {
   }
 
   @DeleteMapping("recipes/{id}")
-  void deleteRecipe(@PathVariable Long id) {
+  public void deleteRecipe(@PathVariable Long id) {
     repository.deleteById(id);
   }
 
