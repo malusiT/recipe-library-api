@@ -1,4 +1,4 @@
-package com.malusi.RecipeLibrary;
+package com.malusi.recipelibrary.recipe.entity;
 
 import java.util.List;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Table(name = "recipes")
 @Entity
-class Recipe {
+public class Recipe {
 
   private @Id @GeneratedValue Long id;
 
@@ -58,10 +58,10 @@ class Recipe {
   private Instant updatedAt;
 
 
-  Recipe() {
+  public Recipe() {
   }
 
-  Recipe(String name, String description, List<String> ingredients, List<String> instructions, int duration) {
+  public Recipe(String name, String description, List<String> ingredients, List<String> instructions, int duration) {
     
     this.name = name;
     this.description = description;
